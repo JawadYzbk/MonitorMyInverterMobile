@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:piq6_monitor/models.dart';
-import 'package:piq6_monitor/services/alerts.dart';
+import 'package:wattwise/models.dart';
+import 'package:wattwise/services/alerts.dart';
 
 Telemetry reading(int minute, double acIn, {String status = 'Online'}) => Telemetry.fromJson({
       'timestamp': '2026-11-20T10:${minute.toString().padLeft(2, '0')}:00Z',

@@ -1,4 +1,4 @@
-# Pi Q6 Monitor — Android app
+# WattWise — Android & iPhone app
 
 Native Flutter app for the MonitorMyInverter gateway. It shows the same things as the
 web dashboard (`MonitorMyInverter-frontend`) and alerts like the Windows tray app
@@ -30,7 +30,7 @@ Get the latest APK from the repo's **Releases** page. Each release lists what ch
 
 ## Install on iPhone
 
-Each release has an unsigned `piq6-monitor-vX.Y.Z.ipa`. iPhones only run signed apps,
+Each release has an unsigned `wattwise-vX.Y.Z.ipa`. iPhones only run signed apps,
 so a sideloading tool signs it with your (free) Apple ID while installing. With a
 free Apple ID the app expires after **7 days**; install it again to renew.
 
@@ -59,7 +59,7 @@ the exact options of your version.
    phone into WSL with [usbipd-win](https://learn.microsoft.com/windows/wsl/connect-usb)
    (`usbipd list`, `usbipd bind --busid <id>`, `usbipd attach --wsl --busid <id>`).
    Check it's seen with `xtool devices`.
-6. `xtool install piq6-monitor-vX.Y.Z.ipa`
+6. `xtool install wattwise-vX.Y.Z.ipa`
 7. On the iPhone: Settings → General → VPN & Device Management → trust your Apple ID,
    and (iOS 16+) Settings → Privacy & Security → **Developer Mode** → on.
 
@@ -88,17 +88,17 @@ generated `android/` project by `tool/ci_prepare.py`. Data comes from
 Every push to `main` runs `.github/workflows/build-apk.yml`. It generates the
 Android project (`flutter create` + `tool/ci_prepare.py`), runs `flutter analyze`
 and the unit tests, builds a release APK, and uploads it as the
-**piq6-monitor-apk** artifact. Download it from the run's page:
+**wattwise-apk** artifact. Download it from the run's page:
 Actions → Build APK → latest run → Artifacts. It can also be started by hand
 (Run workflow).
 
 ```powershell
-gh run download --name piq6-monitor-apk
+gh run download --name wattwise-apk
 ```
 
 ## Build locally
 
-Run `flutter create --project-name piq6_monitor --org com.piq6 --platforms android .`
+Run `flutter create --project-name wattwise --org app.wattwise --platforms android .`
 and `python tool\ci_prepare.py` once first; the `android/` folder is not committed.
 
 ```powershell

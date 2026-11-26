@@ -71,8 +71,13 @@ class MonitorService {
       // Must match android:foregroundServiceType in AndroidManifest.xml. specialUse has no
       // daily time limit (dataSync is capped at 6 h a day on Android 15+).
       serviceTypes: [ForegroundServiceTypes.specialUse],
-      notificationTitle: 'Pi Q6 Monitor',
+      notificationTitle: 'WattWise',
       notificationText: 'Connecting…',
+      // White bolt in the status bar (res/drawable/ic_stat_wattwise, meta-data in the manifest).
+      notificationIcon: const NotificationIcon(
+        metaDataName: 'app.wattwise.service.NOTIFICATION_ICON',
+        backgroundColor: Color(0xFF34D399),
+      ),
       callback: startMonitorCallback,
     );
   }
@@ -160,12 +165,12 @@ class MonitorTaskHandler extends TaskHandler {
       );
     } on ApiException catch (e) {
       await FlutterForegroundTask.updateService(
-        notificationTitle: 'Pi Q6 Monitor',
+        notificationTitle: 'WattWise',
         notificationText: e.unauthorized ? 'Signed out — open the app to sign in' : e.message,
       );
     } catch (_) {
       await FlutterForegroundTask.updateService(
-        notificationTitle: 'Pi Q6 Monitor',
+        notificationTitle: 'WattWise',
         notificationText: 'No connection to the server',
       );
     } finally {

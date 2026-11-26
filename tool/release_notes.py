@@ -14,13 +14,13 @@ INSTALL = """
 
 ### Install on Android
 
-Download **piq6-monitor-v{v}.apk** below and open it on your phone (allow installing from this source if asked).
+Download **wattwise-v{v}.apk** below and open it on your phone (allow installing from this source if asked).
 
 Already have an older version? Uninstall it first: each build is signed with a new debug key, so Android won't install it over the old one. Uninstalling removes saved settings, so you'll need to sign in again.
 
 ### Install on iPhone
 
-Download **piq6-monitor-v{v}.ipa** below (it appears a few minutes after the APK, once the iPhone build finishes) and sideload it with a free Apple ID using [xtool](https://github.com/xtool-org/xtool), Sideloadly or AltStore. With a free Apple ID the app stops opening after 7 days; install it again to renew. Step-by-step: [README → Install on iPhone]({repo}#install-on-iphone).
+Download **wattwise-v{v}.ipa** below (it appears a few minutes after the APK, once the iPhone build finishes) and sideload it with a free Apple ID using [xtool](https://github.com/xtool-org/xtool), Sideloadly or AltStore. With a free Apple ID the app stops opening after 7 days; install it again to renew. Step-by-step: [README → Install on iPhone]({repo}#install-on-iphone).
 """
 
 REPO_URL = os.environ.get("REPO_URL", "https://github.com/" + os.environ.get("GITHUB_REPOSITORY", ""))

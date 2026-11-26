@@ -21,20 +21,20 @@ Future<void> main() async {
   }
   final settings = await Settings.load();
   final state = AppState(settings);
-  runApp(PiQ6App(state: state));
+  runApp(WattWiseApp(state: state));
   await state.bootstrap();
 }
 
-class PiQ6App extends StatelessWidget {
+class WattWiseApp extends StatelessWidget {
   final AppState state;
-  const PiQ6App({super.key, required this.state});
+  const WattWiseApp({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
     return AppScope(
       state: state,
       child: MaterialApp(
-        title: 'Pi Q6 Monitor',
+        title: 'WattWise',
         debugShowCheckedModeBanner: false,
         theme: buildTheme(),
         // Keeps the background service alive when the user swipes back out of the app.

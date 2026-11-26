@@ -43,11 +43,14 @@ jobs:
       - name: Generate Android project
         run: |
           flutter --version
-          flutter create --project-name piq6_monitor --org com.piq6 --platforms android .
+          flutter create --project-name wattwise --org app.wattwise --platforms android .
           python3 tool/ci_prepare.py
 
       - name: Get packages
         run: flutter pub get
+
+      - name: Generate app icons
+        run: dart run flutter_launcher_icons
 
       - name: Analyze
         run: flutter analyze --no-fatal-infos
@@ -64,7 +67,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: piq6-monitor-apk
+          name: wattwise-apk
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
 
@@ -82,9 +85,9 @@ jobs:
             exit 0
           fi
           python3 tool/release_notes.py notes > release-notes.md
-          cp build/app/outputs/flutter-apk/app-release.apk "piq6-monitor-v$VERSION.apk"
-          gh release create "v$VERSION" "piq6-monitor-v$VERSION.apk" \
-            --title "Pi Q6 Monitor v$VERSION" \
+          cp build/app/outputs/flutter-apk/app-release.apk "wattwise-v$VERSION.apk"
+          gh release create "v$VERSION" "wattwise-v$VERSION.apk" \
+            --title "WattWise v$VERSION" \
             --notes-file release-notes.md \
             --target "$GITHUB_SHA" \
             --latest
@@ -111,11 +114,14 @@ jobs:
 
       - name: Generate iOS project
         run: |
-          flutter create --project-name piq6_monitor --org com.piq6 --platforms ios .
+          flutter create --project-name wattwise --org app.wattwise --platforms ios .
           python3 tool/ci_prepare_ios.py
 
       - name: Get packages
         run: flutter pub get
+
+      - name: Generate app icons
+        run: dart run flutter_launcher_icons
 
       - name: Build iOS app (no code signing)
         run: flutter build ios --release --no-codesign
@@ -124,14 +130,14 @@ jobs:
         run: |
           mkdir -p Payload
           cp -R build/ios/iphoneos/Runner.app Payload/
-          zip -qry "piq6-monitor-v$VERSION.ipa" Payload
-          ls -lh "piq6-monitor-v$VERSION.ipa"
+          zip -qry "wattwise-v$VERSION.ipa" Payload
+          ls -lh "wattwise-v$VERSION.ipa"
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: piq6-monitor-ipa
-          path: piq6-monitor-v${{ env.VERSION }}.ipa
+          name: wattwise-ipa
+          path: wattwise-v${{ env.VERSION }}.ipa
           if-no-files-found: error
 
       - name: Attach IPA to the release
@@ -140,7 +146,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if gh release view "v$VERSION" > /dev/null 2>&1; then
-            gh release upload "v$VERSION" "piq6-monitor-v$VERSION.ipa" --clobber
+            gh release upload "v$VERSION" "wattwise-v$VERSION.ipa" --clobber
           else
             echo "No release v$VERSION yet - IPA is in the run's artifacts."
           fi

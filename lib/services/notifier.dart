@@ -27,7 +27,7 @@ class Notifier {
     if (_ready) return;
     await _plugin.initialize(
       settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        android: AndroidInitializationSettings('ic_stat_wattwise'),
         // iPhone: permission is asked after sign-in (requestPermission).
         iOS: DarwinInitializationSettings(
           requestAlertPermission: false,

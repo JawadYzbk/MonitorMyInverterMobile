@@ -116,7 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 leading: Icon(Icons.info_outline, color: C.muted),
                 title: Text('Alerts work while the app is open', style: TextStyle(fontSize: 14)),
                 subtitle: Text(
-                  "iPhone doesn't let apps keep checking in the background, so keep Pi Q6 Monitor open "
+                  "iPhone doesn't let apps keep checking in the background, so keep WattWise open "
                   'when you want grid and battery alerts.',
                   style: TextStyle(fontSize: 12, color: C.faint),
                 ),

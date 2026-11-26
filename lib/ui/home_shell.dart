@@ -51,16 +51,14 @@ class _HomeShellState extends State<HomeShell> {
       appBar: AppBar(
         titleSpacing: 16,
         title: Row(children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(color: C.battery.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(9)),
-            child: const Icon(Icons.bolt, size: 18, color: C.battery),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(9),
+            child: Image.asset('assets/icon/icon.png', width: 32, height: 32, filterQuality: FilterQuality.medium),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('Pi Q6 Monitor', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+              const Text('WattWise', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
               Row(children: [
                 Container(
                   width: 7,

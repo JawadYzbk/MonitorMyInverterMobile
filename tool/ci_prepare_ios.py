@@ -1,6 +1,6 @@
 """Customises the iOS project that `flutter create --platforms ios .` generates.
 
-  - app name shown under the icon: "Pi Q6 Monitor"
+  - app name shown under the icon: "WattWise"
   - allows plain http:// gateways (self-hosted servers on the LAN or without TLS)
   - removes the template's widget test (it targets the template app)
 """
@@ -18,8 +18,8 @@ def main():
         sys.exit("ios/ is missing - run `flutter create --platforms ios .` first.")
     with open(PLIST, "rb") as f:
         info = plistlib.load(f)
-    info["CFBundleDisplayName"] = "Pi Q6 Monitor"
-    info["CFBundleName"] = "Pi Q6 Monitor"
+    info["CFBundleDisplayName"] = "WattWise"
+    info["CFBundleName"] = "WattWise"
     # The user types their own server address; it may be http:// on a home network.
     info["NSAppTransportSecurity"] = {"NSAllowsArbitraryLoads": True, "NSAllowsLocalNetworking": True}
     with open(PLIST, "wb") as f:

@@ -68,18 +68,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Center(
-                    child: Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: C.battery.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Icon(Icons.bolt, color: C.battery, size: 30),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(18),
+                      child: Image.asset('assets/icon/icon.png', width: 72, height: 72, filterQuality: FilterQuality.medium),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text('Pi Q6 Monitor',
+                  const Text('WattWise',
                       textAlign: TextAlign.center, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 6),
                   const Text('Live battery, solar, load and grid power from your inverter.',

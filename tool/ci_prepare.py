@@ -44,6 +44,13 @@ SERVICE = """
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="Monitors a home solar inverter and alerts when grid power or the battery changes" />
         </service>
+        <meta-data
+            android:name="app.wattwise.service.NOTIFICATION_ICON"
+            android:resource="@drawable/ic_stat_wattwise" />
+        <!-- Default small icon for alert notifications. -->
+        <meta-data
+            android:name="com.dexterous.flutterlocalnotifications.default_icon"
+            android:resource="@drawable/ic_stat_wattwise" />
 """
 
 
@@ -113,7 +120,7 @@ def patch_manifest():
         xml = xml.replace("</application>", SERVICE + "    </application>", 1)
     if ".widgets.BatteryWidget" not in xml:
         xml = xml.replace("</application>", widget_receivers() + "    </application>", 1)
-    xml = re.sub(r'android:label="[^"]*"', 'android:label="Pi Q6 Monitor"', xml, count=1)
+    xml = re.sub(r'android:label="[^"]*"', 'android:label="WattWise"', xml, count=1)
     write(MANIFEST, xml)
     print("patched", MANIFEST)
 

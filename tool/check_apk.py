@@ -13,7 +13,7 @@ MANIFEST = [
     "com.pravera.flutter_foreground_task.service.ForegroundService",
     "es.antonborri.home_widget.HomeWidgetBackgroundReceiver",
 ] + [
-    f"com.piq6.piq6_monitor.widgets.{w}"
+    f"app.wattwise.wattwise.widgets.{w}"
     for w in ["BatteryWidget", "GridWidget", "PowerWidget", "OverviewWidget", "ForecastWidget", "TrendWidget"]
 ]
 

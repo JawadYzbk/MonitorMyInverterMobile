@@ -1,4 +1,4 @@
-package com.piq6.piq6_monitor.widgets
+package app.wattwise.wattwise.widgets
 
 import android.app.PendingIntent
 import android.content.Context
@@ -11,7 +11,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.net.Uri
-import com.piq6.piq6_monitor.MainActivity
+import app.wattwise.wattwise.MainActivity
 import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import java.text.SimpleDateFormat
@@ -113,7 +113,7 @@ object Kit {
         HomeWidgetLaunchIntent.getActivity(context, MainActivity::class.java)
 
     fun refresh(context: Context): PendingIntent =
-        HomeWidgetBackgroundIntent.getBroadcast(context, Uri.parse("piq6://refresh"))
+        HomeWidgetBackgroundIntent.getBroadcast(context, Uri.parse("wattwise://refresh"))
 
     private fun mix(a: Int, b: Int, t: Float): Int {
         fun ch(shift: Int) = (((a shr shift) and 0xFF) + (((b shr shift) and 0xFF) - ((a shr shift) and 0xFF)) * t).toInt()

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg" android:orientation="vertical" android:padding="12dp">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="horizontal" android:gravity="center_vertical">
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pi Q6" android:textColor="#FFF4F4F5" android:textSize="13sp" android:fontFamily="sans-serif-medium"/>
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WattWise" android:textColor="#FFF4F4F5" android:textSize="13sp" android:fontFamily="sans-serif-medium"/>
       <TextView android:id="@+id/updated" android:layout_width="0dp" android:layout_height="wrap_content"
           android:layout_weight="1" android:layout_marginStart="8dp" android:text="Updated 14:20"
           android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="1" android:ellipsize="end" />

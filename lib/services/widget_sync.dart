@@ -15,7 +15,7 @@ import 'settings.dart';
 /// times ("since 14:20 · 2h 5m", "in 45m") when it draws, so they stay right
 /// between updates.
 class WidgetSync {
-  static const _pkg = 'com.piq6.piq6_monitor.widgets';
+  static const _pkg = 'app.wattwise.wattwise.widgets';
   static const providers = [
     'BatteryWidget',
     'GridWidget',

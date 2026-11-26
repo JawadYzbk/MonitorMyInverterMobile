@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:piq6_monitor/grid.dart';
-import 'package:piq6_monitor/models.dart';
+import 'package:wattwise/grid.dart';
+import 'package:wattwise/models.dart';
 
 GridSegment seg(DateTime s, DateTime e, GridState st) => GridSegment(s, e, st);
 

@@ -1,11 +1,11 @@
-package com.piq6.piq6_monitor.widgets
+package app.wattwise.wattwise.widgets
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
 import android.widget.RemoteViews
-import com.piq6.piq6_monitor.R
+import app.wattwise.wattwise.R
 import es.antonborri.home_widget.HomeWidgetProvider
 
 /** Base: draws every instance of a widget from the saved data; tap opens the app. */
