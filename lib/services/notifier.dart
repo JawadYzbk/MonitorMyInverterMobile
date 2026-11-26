@@ -161,7 +161,11 @@ class AlertEngine {
     }
     if (t.online || t.timestamp != null) {
       final threshold = s.batteryThreshold;
-      if (battery.shouldAlert(t.battery, threshold, DateTime.now()) && s.alarmEnabled) {
+      final key = t.timestamp ??
+          Object.hash(t.batteryCapacity, t.batteryVoltage, t.loadPower, t.acInputVoltage);
+      if (battery.shouldAlert(t.battery, threshold, DateTime.now(),
+              readingKey: key, batteryVoltage: t.batteryVoltage) &&
+          s.alarmEnabled) {
         await notifier.lowBattery(t.battery, threshold, voice: s.voiceEnabled);
       }
     }

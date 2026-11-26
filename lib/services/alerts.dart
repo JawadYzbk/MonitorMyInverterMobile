@@ -48,15 +48,33 @@ class GridWatcher {
 
 /// Low battery alarm: at most once every [interval] while the battery stays
 /// below the threshold; re-arms as soon as it recovers.
+///
+/// The cloud now and then sends an empty reading (0 V, 0 %) for a minute. So a
+/// reading at 0 V never counts, and the battery must read low on
+/// [confirmReadings] *new* readings in a row before the first alarm.
 class LowBatteryGate {
   static const interval = Duration(seconds: 120);
+  static const confirmReadings = 2;
   DateTime? _last;
+  Object? _lastKey;
+  int _lowCount = 0;
 
-  bool shouldAlert(int battery, int threshold, DateTime now) {
+  /// [readingKey] tells new readings apart from the same one polled again
+  /// (null counts every call as new). [batteryVoltage] <= 0 marks an empty reading.
+  bool shouldAlert(int battery, int threshold, DateTime now,
+      {Object? readingKey, double? batteryVoltage}) {
+    if (batteryVoltage != null && batteryVoltage <= 0) return false;
     if (battery >= threshold) {
       _last = null;
+      _lastKey = null;
+      _lowCount = 0;
       return false;
     }
+    if (readingKey == null || readingKey != _lastKey) {
+      _lastKey = readingKey;
+      _lowCount += 1;
+    }
+    if (_lowCount < confirmReadings) return false;
     if (_last != null && now.difference(_last!) <= interval) return false;
     _last = now;
     return true;

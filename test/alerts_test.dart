@@ -45,18 +45,42 @@ void main() {
   group('LowBatteryGate', () {
     final t0 = DateTime(2026, 11, 20, 10);
 
-    test('alerts at most every 2 minutes while low', () {
+    DateTime at(int s) => t0.add(Duration(seconds: s));
+
+    test('alerts on the second low reading, then at most every 2 minutes', () {
       final g = LowBatteryGate();
-      expect(g.shouldAlert(20, 25, t0), isTrue);
-      expect(g.shouldAlert(20, 25, t0.add(const Duration(seconds: 60))), isFalse);
-      expect(g.shouldAlert(20, 25, t0.add(const Duration(seconds: 121))), isTrue);
+      expect(g.shouldAlert(20, 25, at(0), readingKey: 1), isFalse);
+      expect(g.shouldAlert(20, 25, at(60), readingKey: 2), isTrue);
+      expect(g.shouldAlert(20, 25, at(120), readingKey: 3), isFalse);
+      expect(g.shouldAlert(20, 25, at(181), readingKey: 4), isTrue);
+    });
+
+    test('the same reading polled twice does not confirm', () {
+      final g = LowBatteryGate();
+      expect(g.shouldAlert(20, 25, at(0), readingKey: 1), isFalse);
+      expect(g.shouldAlert(20, 25, at(10), readingKey: 1), isFalse);
+    });
+
+    test('a one-off drop to 0 % never alerts', () {
+      final g = LowBatteryGate();
+      expect(g.shouldAlert(64, 25, at(0), readingKey: 1), isFalse);
+      expect(g.shouldAlert(0, 25, at(60), readingKey: 2), isFalse);
+      expect(g.shouldAlert(63, 25, at(120), readingKey: 3), isFalse);
+    });
+
+    test('empty readings at 0 V are ignored', () {
+      final g = LowBatteryGate();
+      expect(g.shouldAlert(0, 25, at(0), readingKey: 1, batteryVoltage: 0), isFalse);
+      expect(g.shouldAlert(0, 25, at(60), readingKey: 2, batteryVoltage: 0), isFalse);
     });
 
     test('re-arms after recovering', () {
       final g = LowBatteryGate();
-      expect(g.shouldAlert(20, 25, t0), isTrue);
-      expect(g.shouldAlert(30, 25, t0.add(const Duration(seconds: 10))), isFalse);
-      expect(g.shouldAlert(24, 25, t0.add(const Duration(seconds: 20))), isTrue);
+      g.shouldAlert(20, 25, at(0), readingKey: 1);
+      expect(g.shouldAlert(20, 25, at(60), readingKey: 2), isTrue);
+      expect(g.shouldAlert(30, 25, at(70), readingKey: 3), isFalse);
+      expect(g.shouldAlert(24, 25, at(80), readingKey: 4), isFalse);
+      expect(g.shouldAlert(24, 25, at(90), readingKey: 5), isTrue);
     });
   });
 }
