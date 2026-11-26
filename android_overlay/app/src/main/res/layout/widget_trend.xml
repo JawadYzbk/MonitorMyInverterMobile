@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg" android:orientation="vertical" android:padding="12dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical">
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Last 4 hours" android:textColor="#FFF4F4F5" android:textSize="13sp" android:fontFamily="sans-serif-medium"/>
+      <TextView android:id="@+id/updated" android:layout_width="0dp" android:layout_height="wrap_content"
+          android:layout_weight="1" android:layout_marginStart="8dp" android:text="Updated 14:20"
+          android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="1" android:ellipsize="end" />
+      <ImageView android:id="@+id/refresh" android:layout_width="30dp" android:layout_height="30dp"
+          android:padding="5dp" android:src="@drawable/widget_ic_refresh" android:contentDescription="Refresh" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="● Solar" android:textColor="#FFFBBF24" android:textSize="10.5sp" />
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="● Load" android:textColor="#FFA78BFA" android:textSize="10.5sp" android:layout_marginStart="10dp"/>
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="┅ Battery %" android:textColor="#FF34D399" android:textSize="10.5sp" android:layout_marginStart="10dp"/>
+    </LinearLayout>
+    <ImageView android:id="@+id/trend_chart" android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:layout_marginTop="4dp" android:scaleType="fitXY"
+        android:contentDescription="Power chart" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+      <TextView android:id="@+id/trend_from" android:layout_width="0dp" android:layout_height="wrap_content"
+          android:layout_weight="1" android:text="10:20" android:textColor="#FF71717A" android:textSize="10sp" />
+      <TextView android:id="@+id/trend_to" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="14:20" android:textColor="#FF71717A" android:textSize="10sp" />
+    </LinearLayout>
+    <TextView android:id="@+id/trend_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Battery −4% per hour · now 87%" android:textColor="#FFF4F4F5" android:textSize="12sp" android:maxLines="1" android:ellipsize="end"/>
+</LinearLayout>

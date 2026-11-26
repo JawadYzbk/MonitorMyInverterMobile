@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_battery_desc">Battery level, charging or draining, turns red below your alert level</string>
+    <string name="widget_grid_desc">Grid power on or off, how long, and when it is expected to change</string>
+    <string name="widget_power_desc">Solar and home load right now, and whether you have spare power</string>
+    <string name="widget_overview_desc">Battery, grid, solar and load at a glance, with refresh</string>
+    <string name="widget_forecast_desc">Next expected grid change, the last 24 hours and the next 24 hours</string>
+    <string name="widget_trend_desc">Solar, load and battery over the last 4 hours</string>
+</resources>

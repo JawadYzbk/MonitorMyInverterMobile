@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg" android:orientation="vertical" android:padding="14dp">
+    <TextView android:id="@+id/bat_label" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Battery" android:textColor="#FFA1A1AA" android:textSize="13sp" android:maxLines="1" android:ellipsize="end"/>
+    <TextView android:id="@+id/bat_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="87%" android:textColor="#FF34D399" android:textSize="34sp" android:fontFamily="sans-serif-medium"/>
+    <ImageView android:id="@+id/bat_bar" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="2dp" android:scaleType="fitXY" android:src="@drawable/widget_preview_bar" />
+    <TextView android:id="@+id/bat_detail" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="52.4 V · charging 12 A" android:textColor="#FFA1A1AA" android:textSize="12sp" android:layout_marginTop="6dp" android:maxLines="2"/>
+    <TextView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:id="@+id/updated" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Updated 14:20" android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="1" android:ellipsize="end"/>
+</LinearLayout>

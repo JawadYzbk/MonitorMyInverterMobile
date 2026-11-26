@@ -1,0 +1,25 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+*.iml
+.idea/
+.vscode/
+
+# Android project is generated in CI by `flutter create` + tool/ci_prepare.py
+/android/
+/ios/
+/web/
+/linux/
+/macos/
+/windows/
+
+# Local secrets
+*.jks
+*.keystore
+key.properties
+
+# Downloaded build artifacts
+/dist/

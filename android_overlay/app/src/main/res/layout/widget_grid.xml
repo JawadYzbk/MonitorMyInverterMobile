@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg" android:orientation="vertical" android:padding="14dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Grid power" android:textColor="#FFA1A1AA" android:textSize="13sp" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="bottom">
+      <TextView android:id="@+id/grid_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="On" android:textColor="#FF38BDF8" android:textSize="34sp" android:fontFamily="sans-serif-medium"/>
+      <TextView android:id="@+id/grid_volts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="231 V" android:textColor="#FF71717A" android:textSize="12sp" android:layout_marginStart="8dp" android:layout_marginBottom="7dp"/>
+    </LinearLayout>
+    <TextView android:id="@+id/grid_since" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="since 14:20 · 2h 5m" android:textColor="#FFF4F4F5" android:textSize="12sp" android:maxLines="1" android:ellipsize="end"/>
+    <TextView android:id="@+id/grid_next" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="off ~18:30 · in 1h 40m" android:textColor="#FFA1A1AA" android:textSize="12sp" android:layout_marginTop="2dp" android:maxLines="2"/>
+    <TextView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:id="@+id/updated" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Updated 14:20" android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="1" android:ellipsize="end"/>
+</LinearLayout>

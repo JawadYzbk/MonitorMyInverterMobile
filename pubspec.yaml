@@ -1,0 +1,27 @@
+name: piq6_monitor
+description: Pi Q6 Monitor — live inverter, battery, solar and grid power for Android.
+publish_to: 'none'
+version: 1.2.0+3
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: any
+  shared_preferences: any
+  flutter_secure_storage: any
+  fl_chart: any
+  flutter_local_notifications: any
+  flutter_foreground_task: any
+  flutter_tts: any
+  home_widget: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: any
+
+flutter:
+  uses-material-design: true

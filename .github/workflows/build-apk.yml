@@ -1,0 +1,146 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write # create GitHub Releases
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+      released: ${{ steps.release.outputs.released }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Read version and check patch notes
+        id: ver
+        run: |
+          echo "version=$(python3 tool/release_notes.py version)" >> "$GITHUB_OUTPUT"
+          python3 tool/release_notes.py notes > /dev/null
+
+      - name: Generate Android project
+        run: |
+          flutter --version
+          flutter create --project-name piq6_monitor --org com.piq6 --platforms android .
+          python3 tool/ci_prepare.py
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Unit tests
+        run: flutter test
+
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Check APK contents
+        run: python3 tool/check_apk.py build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: piq6-monitor-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+      # A new version in pubspec.yaml (with its CHANGELOG.md section) on main
+      # becomes a GitHub Release with the APK attached. Same version again: skipped.
+      - name: Publish GitHub Release
+        id: release
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          if gh release view "v$VERSION" > /dev/null 2>&1; then
+            echo "v$VERSION is already released - bump version in pubspec.yaml to publish a new one."
+            exit 0
+          fi
+          python3 tool/release_notes.py notes > release-notes.md
+          cp build/app/outputs/flutter-apk/app-release.apk "piq6-monitor-v$VERSION.apk"
+          gh release create "v$VERSION" "piq6-monitor-v$VERSION.apk" \
+            --title "Pi Q6 Monitor v$VERSION" \
+            --notes-file release-notes.md \
+            --target "$GITHUB_SHA" \
+            --latest
+          echo "released=true" >> "$GITHUB_OUTPUT"
+
+  # iPhone: unsigned .ipa for sideloading with a free Apple ID (xtool, Sideloadly,
+  # AltStore sign it on install). Runs for each new release, or by hand
+  # (Actions → Build → Run workflow), and attaches the .ipa to that release.
+  ios:
+    name: iPhone IPA (unsigned)
+    needs: build
+    if: needs.build.outputs.released == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: macos-latest
+    timeout-minutes: 45
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate iOS project
+        run: |
+          flutter create --project-name piq6_monitor --org com.piq6 --platforms ios .
+          python3 tool/ci_prepare_ios.py
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Build iOS app (no code signing)
+        run: flutter build ios --release --no-codesign
+
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/
+          zip -qry "piq6-monitor-v$VERSION.ipa" Payload
+          ls -lh "piq6-monitor-v$VERSION.ipa"
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: piq6-monitor-ipa
+          path: piq6-monitor-v${{ env.VERSION }}.ipa
+          if-no-files-found: error
+
+      - name: Attach IPA to the release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "v$VERSION" > /dev/null 2>&1; then
+            gh release upload "v$VERSION" "piq6-monitor-v$VERSION.ipa" --clobber
+          else
+            echo "No release v$VERSION yet - IPA is in the run's artifacts."
+          fi

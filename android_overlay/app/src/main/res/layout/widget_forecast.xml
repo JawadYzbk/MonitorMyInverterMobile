@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg" android:orientation="vertical" android:padding="12dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical">
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Grid forecast" android:textColor="#FFF4F4F5" android:textSize="13sp" android:fontFamily="sans-serif-medium"/>
+      <TextView android:id="@+id/updated" android:layout_width="0dp" android:layout_height="wrap_content"
+          android:layout_weight="1" android:layout_marginStart="8dp" android:text="Updated 14:20"
+          android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="1" android:ellipsize="end" />
+      <ImageView android:id="@+id/refresh" android:layout_width="30dp" android:layout_height="30dp"
+          android:padding="5dp" android:src="@drawable/widget_ic_refresh" android:contentDescription="Refresh" />
+    </LinearLayout>
+    <TextView android:id="@+id/fc_headline" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Grid off at 18:30 · in 1h 40m" android:textColor="#FFF87171" android:textSize="15sp" android:fontFamily="sans-serif-medium" android:layout_marginTop="2dp" android:maxLines="2"/>
+    <TextView android:id="@+id/fc_detail" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Likely 18:10–18:50 · then back ~22:00 · High confidence" android:textColor="#FFA1A1AA" android:textSize="11.5sp" android:maxLines="2"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" android:orientation="horizontal" android:gravity="center_vertical">
+      <TextView android:layout_width="58dp" android:layout_height="wrap_content" android:text="Past 24 h"
+          android:textColor="#FF71717A" android:textSize="10.5sp" />
+      <ImageView android:id="@+id/fc_past" android:layout_width="0dp" android:layout_height="12dp"
+          android:layout_weight="1" android:scaleType="fitXY" android:src="@drawable/widget_preview_strip" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/fc_next_row" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" android:orientation="horizontal" android:gravity="center_vertical">
+      <TextView android:layout_width="58dp" android:layout_height="wrap_content" android:text="Next 24 h"
+          android:textColor="#FF71717A" android:textSize="10.5sp" />
+      <ImageView android:id="@+id/fc_next" android:layout_width="0dp" android:layout_height="12dp"
+          android:layout_weight="1" android:scaleType="fitXY" android:src="@drawable/widget_preview_strip" />
+    </LinearLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:id="@+id/fc_stats" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Grid today 9h 30m · 3 cuts in 24 h" android:textColor="#FFA1A1AA" android:textSize="11sp" android:maxLines="1" android:ellipsize="end"/>
+</LinearLayout>

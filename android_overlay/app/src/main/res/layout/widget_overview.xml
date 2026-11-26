@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_bg" android:orientation="vertical" android:padding="12dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical">
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pi Q6" android:textColor="#FFF4F4F5" android:textSize="13sp" android:fontFamily="sans-serif-medium"/>
+      <TextView android:id="@+id/updated" android:layout_width="0dp" android:layout_height="wrap_content"
+          android:layout_weight="1" android:layout_marginStart="8dp" android:text="Updated 14:20"
+          android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="1" android:ellipsize="end" />
+      <ImageView android:id="@+id/refresh" android:layout_width="30dp" android:layout_height="30dp"
+          android:padding="5dp" android:src="@drawable/widget_ic_refresh" android:contentDescription="Refresh" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:layout_marginTop="6dp" android:orientation="horizontal">
+      <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+        android:layout_marginEnd="6dp" android:background="@drawable/widget_tile_bg"
+        android:orientation="vertical" android:padding="8dp">
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Battery" android:textColor="#FFA1A1AA" android:textSize="11sp" android:maxLines="1"/>
+      <TextView android:id="@+id/ov_bat" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="87%" android:textColor="#FF34D399" android:textSize="20sp" android:fontFamily="sans-serif-medium" android:maxLines="1" android:ellipsize="end"/>
+      <TextView android:id="@+id/ov_bat_sub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="charging 12 A" android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="2"/>
+    </LinearLayout>
+      <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+        android:layout_marginEnd="6dp" android:background="@drawable/widget_tile_bg"
+        android:orientation="vertical" android:padding="8dp">
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Grid" android:textColor="#FFA1A1AA" android:textSize="11sp" android:maxLines="1"/>
+      <TextView android:id="@+id/ov_grid" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="On" android:textColor="#FF38BDF8" android:textSize="20sp" android:fontFamily="sans-serif-medium" android:maxLines="1" android:ellipsize="end"/>
+      <TextView android:id="@+id/ov_grid_sub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2h 5m" android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="2"/>
+    </LinearLayout>
+      <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+        android:layout_marginEnd="6dp" android:background="@drawable/widget_tile_bg"
+        android:orientation="vertical" android:padding="8dp">
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Solar" android:textColor="#FFA1A1AA" android:textSize="11sp" android:maxLines="1"/>
+      <TextView android:id="@+id/ov_solar" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1,240" android:textColor="#FFFBBF24" android:textSize="20sp" android:fontFamily="sans-serif-medium" android:maxLines="1" android:ellipsize="end"/>
+      <TextView android:id="@+id/ov_solar_sub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="W · 120 V" android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="2"/>
+    </LinearLayout>
+      <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+        android:layout_marginEnd="0dp" android:background="@drawable/widget_tile_bg"
+        android:orientation="vertical" android:padding="8dp">
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Load" android:textColor="#FFA1A1AA" android:textSize="11sp" android:maxLines="1"/>
+      <TextView android:id="@+id/ov_load" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="460" android:textColor="#FFA78BFA" android:textSize="20sp" android:fontFamily="sans-serif-medium" android:maxLines="1" android:ellipsize="end"/>
+      <TextView android:id="@+id/ov_load_sub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="W · 12%" android:textColor="#FF71717A" android:textSize="10.5sp" android:maxLines="2"/>
+    </LinearLayout>
+    </LinearLayout>
+    <ImageView android:id="@+id/ov_bat_bar" android:layout_width="match_parent" android:layout_height="4dp" android:layout_marginTop="6dp" android:scaleType="fitXY" android:src="@drawable/widget_preview_bar" />
+</LinearLayout>
