@@ -1,0 +1,9 @@
+# App icon for Android (CI: dart run flutter_launcher_icons -f tool/icons_android.yaml).
+# Artwork comes from tool/make_icon.py.
+flutter_launcher_icons:
+  image_path: assets/icon/icon.png
+  android: true
+  ios: false
+  adaptive_icon_background: assets/icon/icon_background.png
+  adaptive_icon_foreground: assets/icon/icon_foreground.png
+  adaptive_icon_monochrome: assets/icon/icon_monochrome.png

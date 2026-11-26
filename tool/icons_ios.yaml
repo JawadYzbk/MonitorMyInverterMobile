@@ -1,0 +1,7 @@
+# App icon for iPhone (CI: dart run flutter_launcher_icons -f tool/icons_ios.yaml).
+# Artwork comes from tool/make_icon.py.
+flutter_launcher_icons:
+  image_path: assets/icon/icon.png
+  android: false
+  ios: true
+  remove_alpha_ios: true
