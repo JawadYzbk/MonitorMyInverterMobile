@@ -30,45 +30,76 @@ Get the latest APK from the repo's **Releases** page. Each release lists what ch
 
 ## Install on iPhone
 
-Each release has an unsigned `wattwise-vX.Y.Z.ipa`. iPhones only run signed apps,
-so a sideloading tool signs it with your (free) Apple ID while installing. With a
-free Apple ID the app expires after **7 days**; install it again to renew.
+Each release has an unsigned `wattwise-vX.Y.Z.ipa`. iPhones only run signed apps, so
+[xtool](https://github.com/xtool-org/xtool) signs it with your Apple ID while it
+installs it. A **free Apple ID** works; the app then stops opening after **7 days**,
+and you renew it by running the install again.
 
 On iPhone the app alerts only while it's open (iOS stops background checking), and
 there are no home screen widgets.
 
-### With xtool (Windows via WSL, Linux or macOS)
+### Windows: one command (xtool in WSL)
 
-Based on xtool's docs (<https://github.com/xtool-org/xtool>); run `xtool --help` for
-the exact options of your version.
+You need, once:
 
-1. **Windows only:** install WSL with Ubuntu (`wsl --install` in PowerShell), then run
-   everything below inside Ubuntu.
-2. Install the prerequisites xtool lists: the Swift toolchain from
-   <https://www.swift.org/install/linux> and `sudo apt-get install usbmuxd`.
-3. Install xtool:
-   ```bash
-   curl -fL "https://github.com/xtool-org/xtool/releases/latest/download/xtool-$(uname -m).AppImage" -o xtool
-   chmod +x xtool && sudo mv xtool /usr/local/bin/
-   ```
-4. `xtool setup`. Choose **Password** (works with a free Apple ID; xtool suggests a
-   spare Apple ID because this uses private Apple APIs) and sign in. Setup may also ask
-   for **Xcode.xip** (a large download from developer.apple.com); xtool's docs don't
-   say whether installing an existing .ipa can skip it.
-5. Connect the iPhone by USB and tap **Trust** on the phone. On Windows, pass the
-   phone into WSL with [usbipd-win](https://learn.microsoft.com/windows/wsl/connect-usb)
-   (`usbipd list`, `usbipd bind --busid <id>`, `usbipd attach --wsl --busid <id>`).
-   Check it's seen with `xtool devices`.
-6. `xtool install wattwise-vX.Y.Z.ipa`
-7. On the iPhone: Settings → General → VPN & Device Management → trust your Apple ID,
-   and (iOS 16+) Settings → Privacy & Security → **Developer Mode** → on.
+- **WSL with Ubuntu**: in PowerShell run `wsl --install -d Ubuntu`, restart, open
+  Ubuntu once and create your Linux user.
+- **iTunes** (Microsoft Store or apple.com): open it, plug in the iPhone by USB, unlock
+  it and tap **Trust**. WattWise's script reaches the phone through iTunes' Apple Mobile
+  Device Service, so no USB passthrough into WSL is needed.
 
-### Simpler on Windows: Sideloadly
+Then, with the iPhone plugged in and unlocked, open **PowerShell as administrator** in
+this folder and run:
 
-If xtool's setup needs Xcode.xip and that download is too big, Sideloadly
-(<https://sideloadly.io>) is a Windows app that does the same job with a free Apple ID:
-open the .ipa, enter your Apple ID, click Start. It needs Apple's iTunes and iCloud
-(the versions from apple.com, not the Microsoft Store).
+```powershell
+powershell -ExecutionPolicy Bypass -File tool\sideload\sideload.ps1
+```
+
+The first time, it installs xtool in Ubuntu (asks for your Ubuntu password) and signs
+in to Apple: enter your Apple ID, password and the 2-factor code. xtool's authors
+suggest a spare Apple ID, since this sign-in uses Apple's private API. After that,
+the same command downloads the latest WattWise from Releases and installs it. To
+install a file you already have, add `-Ipa C:\Downloads\wattwise-vX.Y.Z.ipa`.
+
+First install on the phone only:
+
+1. Settings → General → **VPN & Device Management** → your Apple ID → **Trust**.
+2. iOS 16+: Settings → Privacy & Security → **Developer Mode** → on (the phone restarts).
+
+Every 7 days (free Apple ID): plug in and run the same command again.
+
+What the script does: [`tool/sideload/sideload.ps1`](tool/sideload/sideload.ps1)
+forwards port 27015 (Apple Mobile Device Service) into WSL on the WSL network adapter
+only, then runs [`setup-wsl.sh`](tool/sideload/setup-wsl.sh) (first time) and
+[`install.sh`](tool/sideload/install.sh) in Ubuntu.
+
+### Linux or macOS
+
+```bash
+bash tool/sideload/setup-wsl.sh   # once: installs xtool, signs in to Apple
+bash tool/sideload/install.sh     # each time: latest release, signed + installed
+```
+
+On Linux, `usbmuxd` must be running for the USB connection
+(`sudo apt-get install usbmuxd`).
+
+### Notes
+
+- Installing only needs `xtool auth`. The Xcode.xip download that `xtool setup` asks
+  for is for building apps, so these scripts skip it.
+- Doing it by hand: `xtool auth login --mode password`, then
+  `xtool install wattwise-vX.Y.Z.ipa` (add `--udid <id>` if several devices are connected;
+  `xtool devices` lists them).
+- "No iPhone found": unlock the phone, check iTunes shows it, and run the PowerShell
+  window as administrator. If your WSL uses mirrored networking, run `install.sh` in
+  Ubuntu with `USBMUXD_SOCKET_ADDRESS=127.0.0.1:27015`.
+- Free Apple IDs can have only a few sideloaded apps at once (Apple's limit).
+
+### Alternative: Sideloadly
+
+[Sideloadly](https://sideloadly.io) is a Windows app that does the same with a free
+Apple ID, without WSL: open the .ipa, enter your Apple ID, click Start. It needs iTunes
+and iCloud from apple.com.
 
 ## Releasing a new version
 
