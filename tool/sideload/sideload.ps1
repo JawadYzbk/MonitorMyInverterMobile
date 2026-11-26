@@ -17,7 +17,11 @@
   Free Apple ID: the app stops opening after 7 days. Run this again to renew.
 #>
 #Requires -RunAsAdministrator
-param([string]$Ipa)
+param(
+  [string]$Ipa,
+  # WSL distribution to use (not Docker's or Podman's internal ones).
+  [string]$Distro = 'Ubuntu'
+)
 $ErrorActionPreference = 'Stop'
 
 function Step($text) { Write-Host "==> $text" -ForegroundColor Cyan }
@@ -26,9 +30,9 @@ Step 'Checking WSL'
 if (-not (Get-Command wsl.exe -ErrorAction SilentlyContinue)) {
   throw 'WSL is not installed. Run "wsl --install -d Ubuntu", restart Windows, open Ubuntu once to create your user, then run this again.'
 }
-$distros = (wsl.exe --list --quiet) -replace "`0", '' | Where-Object { $_.Trim() }
-if (-not $distros) {
-  throw 'WSL has no Linux distribution yet. Run "wsl --install -d Ubuntu", open Ubuntu once, then run this again.'
+$distros = (wsl.exe --list --quiet) -replace "`0", '' | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+if ($distros -notcontains $Distro) {
+  throw "WSL has no '$Distro' yet (found: $($distros -join ', ')). Run ""wsl --install -d Ubuntu"", open Ubuntu once to create your Linux user, then run this again."
 }
 
 Step 'Checking iTunes (Apple Mobile Device Service)'
@@ -39,7 +43,7 @@ if (-not $svc) {
 if ($svc.Status -ne 'Running') { Start-Service -Name $svc.Name }
 
 Step 'Forwarding the iPhone connection into WSL'
-$wslHost = (wsl.exe -e sh -c "ip route list default | awk '{print `$3}'").Trim()
+$wslHost = (wsl.exe -d $Distro -e sh -c "ip route list default | awk '{print `$3}'").Trim()
 if ($wslHost -notmatch '^\d{1,3}(\.\d{1,3}){3}$') {
   throw "Couldn't find the WSL network address (got '$wslHost'). If WSL uses mirrored networking, run tool/sideload/install.sh in Ubuntu with USBMUXD_SOCKET_ADDRESS=127.0.0.1:27015 instead."
 }
@@ -54,20 +58,20 @@ Get-NetFirewallRule -DisplayName $rule -ErrorAction SilentlyContinue | Remove-Ne
 New-NetFirewallRule -DisplayName $rule -Direction Inbound -Protocol TCP -LocalAddress $wslHost -LocalPort 27015 -Action Allow | Out-Null
 Write-Host "    $($wslHost):27015 -> Apple Mobile Device Service"
 
-$here = (wsl.exe wslpath -a "$PSScriptRoot").Trim()
+$here = (wsl.exe -d $Distro wslpath -a "$PSScriptRoot").Trim()
 
-$hasXtool = (wsl.exe -e bash -lc 'command -v xtool >/dev/null || [ -x "$HOME/.local/bin/xtool" ] && echo yes').Trim()
+$hasXtool = (wsl.exe -d $Distro -e bash -lc 'command -v xtool >/dev/null || [ -x "$HOME/.local/bin/xtool" ] && echo yes').Trim()
 if ($hasXtool -ne 'yes') {
   Step 'First run: installing xtool in WSL and signing in to Apple'
-  wsl.exe -e bash "$here/setup-wsl.sh"
+  wsl.exe -d $Distro -e bash "$here/setup-wsl.sh"
   if ($LASTEXITCODE -ne 0) { throw 'xtool setup failed (see the messages above).' }
 }
 
 Step 'Installing WattWise'
 if ($Ipa) {
-  $ipaWsl = (wsl.exe wslpath -a "$((Resolve-Path $Ipa).Path)").Trim()
-  wsl.exe -e bash "$here/install.sh" "$ipaWsl"
+  $ipaWsl = (wsl.exe -d $Distro wslpath -a "$((Resolve-Path $Ipa).Path)").Trim()
+  wsl.exe -d $Distro -e bash "$here/install.sh" "$ipaWsl"
 } else {
-  wsl.exe -e bash "$here/install.sh"
+  wsl.exe -d $Distro -e bash "$here/install.sh"
 }
 if ($LASTEXITCODE -ne 0) { throw 'Install failed (see the messages above).' }
